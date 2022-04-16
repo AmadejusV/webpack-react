@@ -20,3 +20,22 @@ Initial commit:
     Check if webpack builds it: npm run build node dist/main.js
 
     Add dist folder to .gitignore because it needs to be a clean slate output, must be reapeatable every time and when on the server we don't want to host those files, we want to build them fresh every time.
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Initial webpack config commit:
+
+Create index.html in dist with script source to main.js
+
+Create webpack.config.js in root:
+
+module.exports = {
+  mode: "development",
+  devServer: {
+    static: "./dist"
+  }
+}
+
+mode sets development mode rather then production 
+
+static sets path for where all your stuff is when served, in this case "./dist" 

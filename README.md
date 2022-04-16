@@ -25,17 +25,66 @@ Initial commit:
 
 Initial webpack config commit:
 
-Create index.html in dist with script source to main.js
+    Create index.html in dist with script source to main.js
 
-Create webpack.config.js in root:
+    Create webpack.config.js in root:
 
-module.exports = {
-  mode: "development",
-  devServer: {
-    static: "./dist"
-  }
-}
+    module.exports = {
+    mode: "development",
+    devServer: {
+        static: "./dist"
+    }
+    }
 
-mode sets development mode rather then production 
+    mode sets development mode rather then production 
 
-static sets path for where all your stuff is when served, in this case "./dist" 
+    static sets path for where all your stuff is when served, in this case "./dist" 
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Babel, modes, source map commit:
+
+    Install babel: npm i -D babel-loader @babel/core @babel/preset-env
+
+    In webpack.config.js add:
+
+        module: { 
+            rules: [ 
+                { 
+                    test: /.js$/, 
+                    exclude: /node_modules/, 
+                    use: { loader: "babel-loader", },
+                },
+            ], 
+        },
+
+    Create babel.config.js in root and in it add:
+
+        module.exports = { 
+            presets: ["@babel/preset-env"], 
+        };
+
+    And recompile with babel:
+
+        npm run build
+
+    ADD Source-maps:
+
+        in webpack.config.js 
+        change devtool to: devtool: "source-map"
+        lets you see original source files in devtools
+        e.x. index.js
+
+    Refactor scripts:
+
+        install cross-env for easier script usage on linux/windows npm i -D cross-env
+
+        in package.json: "build": "cross-env NODE_ENV=production webpack", "build-dev": "webpack"
+
+        in webpack.config.js set a dynamic mode pick between development and production and set mode: mode:
+
+        let mode = "development"
+
+        if(process.env.NODE_ENV==="production"){ mode="production"; }
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

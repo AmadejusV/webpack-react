@@ -170,3 +170,48 @@ In webpack.config.js
 Build and run to see if it works.
 
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Sixth commit:
+
+Add React support:
+
+    npm i react react-dom
+
+    npm i -D @babel/preset-react
+
+In babel.config.js: 
+    module.exports = { 
+        presets: [
+            "@babel/preset-env", 
+            ["@babel/preset-react", {runtime: "automatic"}]
+        ], 
+    };
+
+Since react 17+ they partnered with babel and made an option to not have to import react when youre only using jsx in a file and under the hood it's supposed to make it a little more efficient. So the only time you'd need to import react is when you need methods or states or anything like it to run react library.
+
+In src create: components/App.jsx
+
+Transfer scss import to App component: 
+    import "../styles/index.scss";
+
+import App.jsx to index.js 
+    import App from "./components/App"; and use it
+
+Now it will not be found, so in webpack.config.js: resolve: { extensions: [".js", ".jsx"], },
+
+    Makes so whenever you import something, you don't have to add these extensions
+
+    Also in test change : test: /.js$/, to test: /.jsx?$/,
+
+In index.js add: 
+    import {createRoot} from "react-dom/client";
+    import App from "./components/App";
+
+    const rootElement = document.getElementById('root');
+    const root = createRoot(rootElement);
+
+    root.render(<App/>);
+
+npm run build

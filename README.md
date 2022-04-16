@@ -88,3 +88,85 @@ Babel, modes, source map commit:
         if(process.env.NODE_ENV==="production"){ mode="production"; }
 
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+css, scss, postcss, hot reloading commit:
+
+Add styles/index.css in src.
+    In index.js import index.css import "./styles/index.css";
+
+Install css loader and plugin: 
+    npm i -D css-loader mini-css-extract-plugin
+
+In webpack.config.js add:
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+In rules add: 
+    { 
+        test: /.css$/i, 
+        use: [MiniCssExtractPlugin.loader, "css-loader"], 
+    },
+
+In webpack everything reads from right to left in arrays so in this case it's gonna use css-loader to process it, then it's gonna get piped into miniCssExtractplugin, and then it's gonna get spit out to our css folder.
+
+    mini-css-extract-plugin instead of style-loader 
+    difference: style-loader injects the styles into your js bundle, 
+    mini css plugin creates resources for a single final css file
+
+In module exports add: 
+    plugins: [new MiniCssExtractPlugin()],
+
+Now in dist/index.html add link to css
+    <link rel="stylesheet" href="main.css">
+
+In webpack in devServer add: 
+    hot: true,
+
+For hot reloading, no need to write --hot near scripts. It's faster and you don't need to replicate your state in browser since it doesn't reload, makes looking up changes faster, and when you need a reload, you reload and it scales, when the project get's bigger it will show that hot reloading is much faster.
+
+
+In styles create _global.scss and rename index.css extension to index.scss
+
+Transfer style code to _global.scss if theres any
+
+In index.scss change code to: @use "global";
+
+In styles create _variables.scss in it add: 
+    :root { --text:black; } 
+    $bg: rgb(240, 138, 138);
+
+In _global.scss add:
+    @use "variables"; 
+    body { 
+        margin: 0; 
+        background-color: variables.$bg; 
+        color: var(--text); 
+        font-size: 43px; 
+    }
+
+In index.js change import to: import "./styles/index.scss";
+
+In webpack.config.js rules, change test to: test: /.s?css$/i,
+
+Add sass and it's loader: npm i -D sass sass-loader
+
+Then add the sass loader in webpack use, like so: use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+
+Add post.css: 
+    npm i -D postcss postcss-preset-env postcss-loader
+
+Create postcss.config.js in root folder with this code: 
+    module.exports = { 
+        plugins: ["postcss-preset-env"] 
+    }
+
+In webpack:
+
+    Add postcss-loader before sass-loader, like so: 
+        use: [MiniCssExtractPlugin.loader, "css-loader","postcss-loader", "sass-loader"],
+
+In webpack.config.js 
+    in rules->test change style file searching to be more dynamic ant target sass, scss and css like this: test: /.(s[ac]|c)ss$/i,
+
+Build and run to see if it works.
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

@@ -1,3 +1,5 @@
+import "./styles/index.scss";
+
 const coffeeRecipe = {
     coffeeSpoons: 1,
     sugar: 0,

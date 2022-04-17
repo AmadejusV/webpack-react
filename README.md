@@ -281,3 +281,66 @@ Automated cleaning and html template commit:
     In output add: path: path.resolve(__dirname, "dist")
 
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+React fast refresh commit:
+
+    REACT FAST REFRESH It's a hot reloading for react. BUT IT'S YET EXPERIMENTAL!
+
+    npm i -D @pmmmwh/react-refresh-webpack-plugin react-refresh
+
+    In babel.config.js: 
+        plugins: ["react-refresh/babel"],
+
+    In webpack.config.js: 
+        const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+
+    In plugins add: 
+        new ReactRefreshWebpackPlugin(),
+
+    To module.exports add entry: 
+        entry: "./src/index.js",
+
+    It's possible to set a refresh reset in a file in case you don't want hot reloading in it by using pragma: 
+        // @refresh reset
+
+    To avoid error, in babel.config.js configure it so:
+
+        const plugins = [];
+
+        if (process.env.NODE_ENV !== "production") { plugins.push("react-refresh/babel"); }
+
+        module.exports = { 
+            presets: [ 
+                "@babel/preset-env", 
+                ["@babel/preset-react", 
+                { runtime: "automatic" }], 
+            ], 
+            plugins: plugins, 
+        };
+
+    In webpack.config.js: 
+        Add a plugins array and in development mode push required plugin into it, change the plugins in module.exports to 
+            plugins: plugins
+
+        const plugins = [ 
+            new CleanWebpackPlugin(), 
+            new MiniCssExtractPlugin(), 
+            new HtmlWebpackPlugin({ template: "./src/index.html" }), 
+        ];
+    
+    To avoid the error with npm build-dev In webpack.config.js push the required plugin in this way:
+        
+        if (process.env.NODE_ENV === "production") { 
+            mode = "production"; 
+        } 
+        if (process.env.SERVE) { 
+            plugins.push(new ReactRefreshWebpackPlugin()); 
+        }
+
+        plugins: plugins
+    
+    In package.json change start script to: 
+        "start": "cross-env SERVE=true webpack serve",
+
+
+    

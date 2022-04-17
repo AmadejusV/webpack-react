@@ -173,7 +173,7 @@ Build and run to see if it works.
 
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
-Sixth commit:
+React commit:
 
 Add React support:
 
@@ -215,3 +215,34 @@ In index.js add:
     root.render(<App/>);
 
 npm run build
+
+Image support commit:
+
+    Add images support:
+
+    In the past you would use a file loader or a url loader, in webpack 5 there's a built in way to do it without any packages at all.
+
+    In webpack.config.js add a new rule: 
+        { test: /.(png|jpe?g|gif|svg)$/i, type: "asset", },
+
+    Also update styles rule to this:
+
+    { 
+        test: /.(s[ac]|c)ss$/i,
+        use: [ 
+            { loader: MiniCssExtractPlugin.loader, options: { publicPath: "" }, }, 
+            "css-loader", 
+            "postcss-loader", 
+            "sass-loader", 
+        ], 
+    },
+
+    For cleaner image distribution in dist. Add an output in webpack.config.js:
+
+    output: { assetModuleFilename: "images/[hash][ext][query]", },
+
+    Now the image files will be put in dist/images
+
+    To clean the dist folder in package.json in scripts add: "clean": "rimraf ./dist",
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

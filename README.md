@@ -246,3 +246,38 @@ Image support commit:
     To clean the dist folder in package.json in scripts add: "clean": "rimraf ./dist",
 
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Automated cleaning and html template commit:
+    AUTOMATED CLEANING AND HTML TEMPLATE
+        npm i -D html-webpack-plugin
+
+    In webpack.config.js add: 
+        const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+    And add a plugin in plugins:
+        plugins: [
+            new MiniCssExtractPlugin(), 
+            new HtmlWebpackPlugin({ template: "./src/index.html" })
+        ],
+
+    Targets premade index.html to be used for creating dist folder.
+
+    Drag index.html from dist folder to src folder.
+
+    Remove duplicates from index.html template (the ones that it automatically creates in dist folder index).
+
+    To clean dist automatically add plugin:
+        npm i -D clean-webpack-plugin
+
+    In webpack.config.js add: 
+        const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+    And in the plugins at the top add: 
+        new CleanWebpackPlugin(),
+
+    To check if it works, create a giberish file and run build, it should get removed.
+
+    If it doesnt work, add: const path = require("path");
+    In output add: path: path.resolve(__dirname, "dist")
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

@@ -342,5 +342,68 @@ React fast refresh commit:
     In package.json change start script to: 
         "start": "cross-env SERVE=true webpack serve",
 
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---C
 
-    
+Typescript support commit:
+
+    Add TYPESCRIPT: npm i -D typescript ts-loader @types/react @types/react-dom @babel/preset-typescript 
+
+    In babel.config.js add: 
+        "@babel/preset-typescript"
+
+    In webpack.config in resolve extensions add: 
+        ".tsx", ".ts",
+
+    In rules add:
+        {
+            test: /\.(ts|tsx)$/,
+            exclude: /node_modules/,
+            use: ["ts-loader"],
+        },
+
+    Create tsconfig.json with this code:
+
+    { 
+        "compilerOptions": 
+            { 
+                "target": "es5", 
+                "lib": [ "dom", "dom.iterable", "esnext" ], 
+                "allowJs": true, 
+                "skipLibCheck": true, 
+                "esModuleInterop": true, 
+                "allowSyntheticDefaultImports": true, 
+                "strict": true, 
+                "forceConsistentCasingInFileNames": true, 
+                "noFallthroughCasesInSwitch": true, 
+                "module": "esnext", 
+                "moduleResolution": "node", 
+                "resolveJsonModule": true, 
+                "isolatedModules": true, 
+                "noEmit": false, 
+                "jsx": "react-jsx", 
+                "outDir": "$$ts-jest$$" 
+            }, 
+        "include": [ "src", "exports.d.ts" ] 
+    }
+
+    "outDir": "$$ts-jest$$" set this to avoid allowJs error
+
+    "target": "es5" => will compile es6 or above code to es5 so that it is compatible with browsers.
+
+    "include": [src, "exports.d.ts"] => specifies that only the files in the src folder and exports should be included.
+
+    "strict": true => enables a wide range of type checking behavior that results in stronger guarantees of program correctness.
+
+    "allowJs": true => allows JavaScript files to be imported inside your project, instead of just .ts and .tsx files.
+
+    Rename our JavaScript files (.js) to TypeScript - React (.tsx).
+
+    Add exports.d.ts file in main directory to declare image types to be included by typescript
+        add a line to it to support png type images:
+            declare module '*.png'
+
+    If changing index.js to index.tsx also change it where ever it's targeted in the setup.
+    Changed entry in webpack.config.js
+        entry: "./src/index.tsx",
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

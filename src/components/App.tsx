@@ -1,8 +1,9 @@
 import "../styles/index.scss";
 import Recipes from "./Recipes";
 import dark from "../images/kapoor.png"
+import { FC } from "react";
 
-const App = () => {
+const App: FC = () => {
   return (
     <>
       <section className="my-section">

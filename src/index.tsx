@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import App from "./components/App";
 
 const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+const root = createRoot(rootElement as Element);
 
 root.render(
     <StrictMode>

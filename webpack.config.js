@@ -23,7 +23,7 @@ if(process.env.SERVE){
 module.exports = {
   mode: "development",
 
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
 
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -32,6 +32,11 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ["ts-loader"],
+      },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: "asset",
@@ -60,7 +65,7 @@ module.exports = {
   plugins: plugins,
 
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".tsx", ".ts"],
   },
 
   devtool: "source-map",
